@@ -12,6 +12,9 @@ connectDB()
 // Crea una instancia de una aplicación Express
 const app = express()
 
+//Leer valores json en el body
+app.use(express.json())
+
 //Routes
 app.use('/api/projects', projectRoutes)
 
