@@ -5,7 +5,6 @@ import Project from "../models/Project";
 export class ProjectController {
   // Método estático para crear proyectos
   static createProject = async (req: Request, res: Response) => {
-    
     const project = new Project(req.body);
 
     try {
@@ -15,9 +14,30 @@ export class ProjectController {
       console.log(error);
     }
   };
+
   // Método estático para obtener  proyectos
   static getAllProjects = async (req: Request, res: Response) => {
-    // Responde con un mensaje que indica que se obtendrán todos los proyectos
-    res.send("Todos los proyectos");
+    try {
+      const projects = await Project.find({});
+      res.json(projects);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Metodo para obtener proyecto por id
+  static getProjectById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const project = await Project.findById(id);
+
+      if (!project) {
+        const error = new Error("Proyecto no encontrado");
+        return res.status(404).json({ error: error.message });
+      }
+      res.json(project);
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
