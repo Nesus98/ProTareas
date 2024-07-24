@@ -39,7 +39,9 @@ router.get(
   //Obtiene el proyecto una vez pasada la validacion
   ProjectController.getProjectById
 );
-//Obtener por ID
+
+
+//Actualizar por ID
 router.put(
   "/:id",
   param("id").isMongoId().withMessage("ID no valido"),
@@ -60,6 +62,16 @@ router.put(
   //Obtiene el proyecto una vez pasada la validacion
   ProjectController.updateProject
 );
+
+//Eliminar
+router.delete(
+    "/:id",
+    param("id").isMongoId().withMessage("ID no valido"),
+    //Valida la peticion
+    handleInputErrors,
+    //Obtiene el proyecto una vez pasada la validacion
+    ProjectController.deleteProject
+  );
 
 // Exporta la instancia de router para que pueda ser utilizada en otros archivos
 export default router;
