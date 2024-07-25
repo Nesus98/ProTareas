@@ -2,11 +2,13 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { ProjectController } from "../controllers/ProjectController";
 import { handleInputErrors } from "../middleware/validation";
+import { TaskController } from "../controllers/TaskController";
+import { validateProjectExist } from "../middleware/project";
 
 // Crea una instancia de Router
 const router = Router();
 
-// Rutas usando el controlador ProjectController
+// Rutas de proyectos
 //Crear
 router.post(
   "/",
@@ -40,7 +42,6 @@ router.get(
   ProjectController.getProjectById
 );
 
-
 //Actualizar por ID
 router.put(
   "/:id",
@@ -65,13 +66,35 @@ router.put(
 
 //Eliminar
 router.delete(
-    "/:id",
-    param("id").isMongoId().withMessage("ID no valido"),
-    //Valida la peticion
-    handleInputErrors,
-    //Obtiene el proyecto una vez pasada la validacion
-    ProjectController.deleteProject
-  );
+  "/:id",
+  param("id").isMongoId().withMessage("ID no valido"),
+  //Valida la peticion
+  handleInputErrors,
+  //Obtiene el proyecto una vez pasada la validacion
+  ProjectController.deleteProject
+);
+
+//Routes for Taks
+router.post(
+  "/:projectId/tasks",
+  validateProjectExist,
+  //Validacion de datos insertados con mensaje
+  body("name")
+    .notEmpty()
+    .withMessage("El Nombre de la tarea es obligatorio"),
+  body("description")
+    .notEmpty()
+    .withMessage("La Descripcion de la tarea es obligatoria"),
+  //Valida la peticion
+  handleInputErrors,
+  TaskController.createTask
+);
+
+router.get(
+  "/:projectId/tasks",
+  validateProjectExist,
+  TaskController.getProjectTasks
+)
 
 // Exporta la instancia de router para que pueda ser utilizada en otros archivos
 export default router;
