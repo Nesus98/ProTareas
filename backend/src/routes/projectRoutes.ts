@@ -96,5 +96,11 @@ router.get(
   TaskController.getProjectTasks
 )
 
+router.get(
+  "/:projectId/tasks/:taskId",
+  validateProjectExist,
+  TaskController.getTaskByID
+)
+
 // Exporta la instancia de router para que pueda ser utilizada en otros archivos
 export default router;

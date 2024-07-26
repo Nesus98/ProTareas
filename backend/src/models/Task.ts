@@ -6,15 +6,15 @@ const taskStatus = {
   IN_PROGRESS: "inProgress",
   UNDER_REVIEW: "underReview",
   COMPLETED: "completed",
-} as const 
+} as const;
 
-export type TaskStatus = typeof taskStatus[keyof typeof taskStatus]
+export type TaskStatus = (typeof taskStatus)[keyof typeof taskStatus];
 
 export interface ITask extends Document {
   name: string;
   description: string;
   project: Types.ObjectId;
-  status: TaskStatus
+  status: TaskStatus;
 }
 
 // Definición del esquema de Mongoose para el modelo Task
@@ -37,16 +37,16 @@ export const TaskSchema: Schema = new Schema(
       ref: "Project",
     },
     status: {
-        type: String,
-        enum: Object.values(taskStatus),
-        default: taskStatus.PENDING
-    }
+      type: String,
+      enum: Object.values(taskStatus),
+      default: taskStatus.PENDING,
+    },
   },
   { timestamps: true }
 );
 
 // Creación del modelo de Mongoose llamado 'task' basado en el esquema TaskSchema
-const Task = mongoose.model<ITask>("task", TaskSchema);
+const Task = mongoose.model<ITask>("Task", TaskSchema);
 
 //Exportar modelo
 export default Task;
