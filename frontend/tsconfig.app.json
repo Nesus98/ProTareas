@@ -12,6 +12,9 @@
       "@/components/*" : ["components/*"],
       "@/views/*" : ["views/*"],
       "@/layouts/*" : ["layouts/*"],
+      "@/types/*" : ["types/*"],
+      "@/api/*" : ["api/*"],
+      "@/lib/*" : ["lib/*"],
 
     },
 
@@ -30,5 +33,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "../backend/config"]
 }
