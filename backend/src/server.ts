@@ -1,5 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import cors from 'cors'
+import { corsConfig} from './config/cors'
 import { connectDB } from './config/db'
 import projectRoutes from './routes/projectRoutes'
 
@@ -11,6 +13,7 @@ connectDB()
 
 // Crea una instancia de una aplicación Express
 const app = express()
+app.use(cors(corsConfig))
 
 //Leer valores json en el body
 app.use(express.json())
