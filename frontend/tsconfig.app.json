@@ -12,8 +12,8 @@
       "@/components/*" : ["components/*"],
       "@/views/*" : ["views/*"],
       "@/layouts/*" : ["layouts/*"],
-      "@/types/*" : ["types/*"],
       "@/api/*" : ["api/*"],
+      "@/types/*" : ["types/*"],
       "@/lib/*" : ["lib/*"],
 
     },
