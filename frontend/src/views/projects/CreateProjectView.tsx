@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { ProjectFormData } from "@/types/index";
 
 export default function CreateProjectView() {
-  const initialValues: ProjectFormData = {
+
+  const initialValues : ProjectFormData= {
     projectName: "",
     clientName: "",
     description: "",

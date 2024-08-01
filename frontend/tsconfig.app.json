@@ -33,5 +33,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../backend/config"]
+  "include": ["src"]
 }

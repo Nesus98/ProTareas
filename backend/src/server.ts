@@ -1,9 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import cors from 'cors'
 import { connectDB } from './config/db'
 import projectRoutes from './routes/projectRoutes'
-import { corsConfig } from './config/cors'
 
 // Carga las variables de entorno desde un archivo .env a process.env
 dotenv.config()
@@ -13,8 +11,6 @@ connectDB()
 
 // Crea una instancia de una aplicación Express
 const app = express()
-
-app.use(cors(corsConfig))
 
 //Leer valores json en el body
 app.use(express.json())
