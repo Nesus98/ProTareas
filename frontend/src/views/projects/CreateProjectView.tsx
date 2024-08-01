@@ -1,15 +1,15 @@
 import ProjectForm from "@/components/projects/ProjectForm";
 import { createProject } from "@/api/ProjectAPI";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { ProjectFormData } from "@/types/index";
 import { toast } from "react-toastify";
 
 export default function CreateProjectView() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const initialValues : ProjectFormData= {
+  const initialValues: ProjectFormData = {
     projectName: "",
     clientName: "",
     description: "",
@@ -21,12 +21,19 @@ export default function CreateProjectView() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
-  const handleForm = async (formData : ProjectFormData) => {
-   const data =  await createProject(formData)
-   toast.success(data)
-    navigate('/')
+  const { mutate } = useMutation({
+    mutationFn: createProject,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data);
+      navigate("/");
+    },
+  });
 
-  };
+  const handleForm = (formData: ProjectFormData) => mutate(formData);
+
   return (
     <>
       <div className="max-w-3xl mx-auto">
