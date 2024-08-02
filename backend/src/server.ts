@@ -4,6 +4,8 @@ import { connectDB } from './config/db'
 import projectRoutes from './routes/projectRoutes'
 import { corsConfig } from './config/cors'
 import cors from 'cors'
+import morgan from 'morgan'
+
 
 // Carga las variables de entorno desde un archivo .env a process.env
 dotenv.config()
@@ -15,6 +17,10 @@ connectDB()
 const app = express()
 
 app.use(cors(corsConfig))
+
+
+///Logging
+app.use(morgan('dev'))
 
 //Leer valores json en el body
 app.use(express.json())
