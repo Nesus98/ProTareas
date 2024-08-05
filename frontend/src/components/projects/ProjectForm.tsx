@@ -2,12 +2,12 @@ import { UseFormRegister, FieldErrors } from "react-hook-form";
 import ErrorMessage from "../ErrorMessage";
 import { ProjectFormData } from "types";
 
+// Definir los tipos de las propiedades que acepta el componente ProjectForm
 type ProjectFormProps = {
   register: UseFormRegister<ProjectFormData>;
   errors: FieldErrors<ProjectFormData>;
 };
-
-export default function ProjectForm({errors, register} : ProjectFormProps) {
+export default function ProjectForm({ errors, register }: ProjectFormProps) {
   return (
     <>
       <div className="mb-5 space-y-3">
