@@ -17,6 +17,8 @@ export const taskSchema = z.object({
   description: z.string(), // Descripción de la tarea
   project: z.string(), // Identificador del proyecto al que pertenece la tarea
   status: taskStatusSchema, // Estado de la tarea (usando el esquema de estado de tarea)
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 // Infer el tipo TypeScript a partir del esquema de tarea

@@ -3,7 +3,7 @@ import api from "@/lib/axios";
 import { isAxiosError } from "axios";
 
 // Importar los tipos necesarios
-import { Project, Task, TaskFormData } from "../types";
+import { Project, Task, TaskFormData, taskSchema } from "../types";
 
 // Definir un tipo para los parámetros de la API de tareas
 type TaskAPI = {
@@ -39,7 +39,10 @@ export async function getTaskById({
   try {
     const url = `/projects/${projectId}/tasks/${taskId}`;
     const { data } = await api(url);
-    return data;
+    const response = taskSchema.safeParse(data);
+    if (response.success) {
+      return response.data;
+    }
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       // Lanzar un error con el mensaje de error de la respuesta
