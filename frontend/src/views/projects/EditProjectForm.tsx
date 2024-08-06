@@ -7,16 +7,17 @@ import { updateProject } from "@/api/ProjectAPI";
 import { toast } from "react-toastify";
 
 type EditProjectFormProps = {
-  data: ProjectFormData;
-  projectId: Project["_id"];
+  data: ProjectFormData; // Datos iniciales del proyecto para el formulario
+  projectId: Project["_id"]; // ID del proyecto que se está editando
 };
 
 export default function EditProjectForm({
   data,
   projectId,
 }: EditProjectFormProps) {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook para la navegación programática
 
+  // Configuración del hook useForm para manejar el estado del formulario
   const {
     register,
     handleSubmit,
@@ -29,27 +30,32 @@ export default function EditProjectForm({
     },
   });
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient(); // Hook para acceder al cliente de consultas
 
+  // Configuración del hook useMutation para manejar la actualización del proyecto
   const { mutate } = useMutation({
-    mutationFn: updateProject,
+    mutationFn: updateProject, // Función que se llama para actualizar un proyecto
     onError: (error) => {
+      // Muestra un mensaje de error si la actualización falla
       toast.error(error.message);
     },
     onSuccess: (data) => {
+      // Invalida las consultas relacionadas para obtener datos actualizados
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       queryClient.invalidateQueries({ queryKey: ["editProject", projectId] });
+      // Muestra un mensaje de éxito y navega a la página principal si la actualización es exitosa
       toast.success(data);
       navigate("/");
     },
   });
 
+  // Función que maneja el envío del formulario
   const handleForm = (formData: ProjectFormData) => {
     const data = {
       formData,
       projectId,
     };
-    mutate(data);
+    mutate(data); // Llama a mutate para actualizar el proyecto
   };
 
   return (

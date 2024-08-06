@@ -6,6 +6,14 @@ import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 // Importar Fragment de React para agrupar elementos sin agregar nodos extra al DOM
 import { Fragment } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { deleteTask } from "@/api/TaskAPI";
+import { toast } from "react-toastify";
 
 // Definir los tipos de propiedades que el componente TaskCard acepta
 type TaskCardProps = {
@@ -14,6 +22,24 @@ type TaskCardProps = {
 
 // Componente funcional TaskCard que recibe una tarea como propiedad
 export default function TaskCard({ task }: TaskCardProps) {
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const projectId = params.projectId!;
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: deleteTask,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data);
+      queryClient.invalidateQueries({ queryKey: ["project", projectId]});
+    },
+  });
+
   return (
     // List item que contiene el contenido de la tarjeta de tarea
     <li className="p-5 bg-white border border-slate-300 flex justify-between gap-3">
@@ -62,6 +88,9 @@ export default function TaskCard({ task }: TaskCardProps) {
                 <button
                   type="button"
                   className="block px-3 py-1 text-sm leading-6 text-gray-900"
+                  onClick={() =>
+                    navigate(location.pathname + `?editTask=${task._id}`)
+                  }
                 >
                   Editar Tarea
                 </button>
@@ -71,6 +100,7 @@ export default function TaskCard({ task }: TaskCardProps) {
                 <button
                   type="button"
                   className="block px-3 py-1 text-sm leading-6 text-red-500"
+                  onClick={() => mutate({ projectId, taskId: task._id })}
                 >
                   Eliminar Tarea
                 </button>

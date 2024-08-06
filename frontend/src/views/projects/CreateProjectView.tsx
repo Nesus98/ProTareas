@@ -7,31 +7,37 @@ import { ProjectFormData } from "@/types/index";
 import { toast } from "react-toastify";
 
 export default function CreateProjectView() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook para la navegación programática
 
+  // Valores iniciales para el formulario
   const initialValues: ProjectFormData = {
     projectName: "",
     clientName: "",
     description: "",
   };
 
+  // Configuración del hook useForm para manejar el estado del formulario
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
+  // Configuración del hook useMutation para manejar la creación del proyecto
   const { mutate } = useMutation({
-    mutationFn: createProject,
+    mutationFn: createProject, // Función que se llama para crear un proyecto
     onError: (error) => {
+      // Muestra un mensaje de error si la creación falla
       toast.error(error.message);
     },
     onSuccess: (data) => {
+      // Muestra un mensaje de éxito y navega a la página principal si la creación es exitosa
       toast.success(data);
       navigate("/");
     },
   });
 
+  // Función que maneja el envío del formulario
   const handleForm = (formData: ProjectFormData) => mutate(formData);
 
   return (

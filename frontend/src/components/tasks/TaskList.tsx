@@ -52,9 +52,6 @@ export default function TaskList({ tasks }: TaskListProps) {
     return { ...acc, [task.status]: currentGroup };
   }, initialStatusGroups);
 
-  // Mostrar los grupos de tareas en la consola para depuración
-  console.log(groupedTasks);
-
   return (
     <>
       {/* Título de la lista de tareas */}

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@/api/ProjectAPI";
 import AddTaskModal from "@/components/tasks/AddTaskModal";
 import TaskList from "@/components/tasks/TaskList";
+import EditTaskData from "@/components/tasks/EditTaskData";
 
 export default function ProjectDetailsView() {
   const navigate = useNavigate(); // Hook para la navegación programática
@@ -12,7 +13,7 @@ export default function ProjectDetailsView() {
 
   // Configuración del hook useQuery para obtener los datos del proyecto
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["editProject", projectId], // Clave única para la consulta
+    queryKey: ["project", projectId], // Clave única para la consulta
     queryFn: () => getProjectById(projectId), // Función para obtener los datos del proyecto
     retry: false, // Desactiva los reintentos automáticos en caso de error
   });
@@ -43,6 +44,7 @@ export default function ProjectDetailsView() {
         </nav>
         <TaskList tasks={data.tasks} />
         <AddTaskModal />
+        <EditTaskData />
       </>
     );
 }
