@@ -2,6 +2,8 @@
 import { Task } from "@/types/index";
 // Importar el componente TaskCard para mostrar cada tarea individualmente
 import TaskCard from "./TaskCard";
+import { statusTranslations } from "@/locales/es";
+
 
 // Definir los tipos de propiedades que el componente TaskList acepta
 type TaskListProps = {
@@ -22,14 +24,7 @@ const initialStatusGroups: GroupedTasks = {
   completed: [],
 };
 
-// Traducciones de los estados de las tareas al español
-const statusTranslations: { [key: string]: string } = {
-  pending: "Pendiente",
-  onHold: "En Espera",
-  inProgress: "En Progreso",
-  underReview: "En Revision",
-  completed: "Completado",
-};
+
 
 // Estilos de borde superior para cada estado de las tareas
 const statusStyles: { [key: string]: string } = {

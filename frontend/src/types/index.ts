@@ -10,6 +10,8 @@ export const taskStatusSchema = z.enum([
   "completed", // Estado completado
 ]);
 
+export type TaskStatus = z.infer<typeof taskStatusSchema>
+
 // Define un esquema para una tarea utilizando el esquema de estados de tarea
 export const taskSchema = z.object({
   _id: z.string(), // Identificador único de la tarea
