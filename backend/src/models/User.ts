@@ -22,7 +22,7 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  confirmen: {
+  confirmed: {
     type: Boolean,
     default: false,
   },
