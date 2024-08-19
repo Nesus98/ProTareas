@@ -1,5 +1,22 @@
 import { z } from "zod"; // Importa la biblioteca zod para la validación de esquemas
 
+/** Auth y Users */
+const authSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+  password_confirmation: z.string(),
+  token: z.string()
+});
+
+type Auth = z.infer<typeof authSchema>;
+export type UserLoginForm = Pick<Auth, "email" | "password">;
+export type UserRegistrationForm = Pick<
+  Auth,
+  "name" | "email" | "password" | "password_confirmation"
+>;
+
+export type ConfirmToken = Pick<Auth, 'token'>
 /** Tasks */
 // Define un esquema para los estados de las tareas usando una enumeración
 export const taskStatusSchema = z.enum([
@@ -10,7 +27,7 @@ export const taskStatusSchema = z.enum([
   "completed", // Estado completado
 ]);
 
-export type TaskStatus = z.infer<typeof taskStatusSchema>
+export type TaskStatus = z.infer<typeof taskStatusSchema>;
 
 // Define un esquema para una tarea utilizando el esquema de estados de tarea
 export const taskSchema = z.object({

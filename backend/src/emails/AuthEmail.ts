@@ -17,7 +17,7 @@ export class AuthEmail {
       text: "ProTareas - Confirma tu cuenta",
       html: `<p>Hola ${user.name}, has creado una cuenta en ProTareas, por favor confirma tu cuenta</p>
       <p>Visita el siguiente enlace:</p>
-      <a href="">Link para confirmar cuenta</a>
+      <a href="${process.env.FRONTEND_URL}/auth/confirm-account">Link para confirmar cuenta</a>
       <p>Ingresa el codigo: <b>${user.token}</b></p>
       <p>El token expirara en 10 minutos</p>`,
     });
