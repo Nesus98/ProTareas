@@ -28,15 +28,15 @@ export default function RegisterView() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      toast.success(data)
-      reset()
+      toast.success(data);
+      reset();
     },
   });
 
   const password = watch("password");
 
   const handleRegister = (formData: UserRegistrationForm) => {
-    mutate(formData)
+    mutate(formData);
   };
 
   return (
@@ -138,6 +138,13 @@ export default function RegisterView() {
           className="text-center text-gray-300 font-normal"
         >
           ¿Ya tienes cuenta? Inicia sesion
+        </Link>
+
+        <Link
+          to={"/auth/forgot-password"}
+          className="text-center text-gray-300 font-normal"
+        >
+          ¿Olvidaste tu contraseña? Reestablecer
         </Link>
       </nav>
     </>
