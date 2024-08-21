@@ -6,11 +6,12 @@ import { TaskController } from "../controllers/TaskController";
 import { projectExist } from "../middleware/project";
 import { taskBelongsToProject, taskExist } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
+import { TeamMemberController } from "../controllers/TeamController";
 
 // Crea una instancia de Router
 const router = Router();
 
-router.use(authenticate)
+router.use(authenticate);
 
 // Rutas de proyectos
 //Crear
@@ -133,5 +134,30 @@ router.post(
   handleInputErrors,
   TaskController.updateStatus
 );
+
+/**Routes for teams */
+router.post(
+  "/:projectId/team/find",
+  body("email").isEmail().toLowerCase().withMessage("Email no valido"),
+  handleInputErrors,
+  TeamMemberController.findMemberByEmail
+);
+
+router.get("/:projectId/team",
+ TeamMemberController.getProjectTeam
+)
+
+router.post("/:projectId/team",
+  body('id')
+  .isMongoId().withMessage('ID No valido'),
+  handleInputErrors,
+  TeamMemberController.addMemberById
+)
+router.delete("/:projectId/team",
+  body('id')
+  .isMongoId().withMessage('ID No valido'),
+  handleInputErrors,
+  TeamMemberController.removeMemberById
+)
 // Exporta la instancia de router para que pueda ser utilizada en otros archivos
 export default router;
