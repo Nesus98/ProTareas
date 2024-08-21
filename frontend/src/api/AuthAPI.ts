@@ -7,6 +7,7 @@ import {
   RequestConfirmationCodeForm,
   UserLoginForm,
   UserRegistrationForm,
+  userSchema,
 } from "../types";
 
 export async function createAccount(formData: UserRegistrationForm) {
@@ -105,7 +106,11 @@ export async function updatePasswordWithToken({
 export async function getUser() {
   try {
     const { data } = await api("/auth/user");
-    console.log(data);
+    const response = userSchema.safeParse(data)
+    if(response.success){
+      return response.data
+    }
+    
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
