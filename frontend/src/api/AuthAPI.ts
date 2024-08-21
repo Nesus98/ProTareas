@@ -50,8 +50,8 @@ export async function requestConfirmationCode(
 export async function authenticateUser(formData: UserLoginForm) {
   try {
     const url = "/auth/login";
-    const { data } = await api.post<string>(url, formData);    
-    localStorage.setItem('AUTH_TOKEN', data)
+    const { data } = await api.post<string>(url, formData);
+    localStorage.setItem("AUTH_TOKEN", data);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -95,6 +95,18 @@ export async function updatePasswordWithToken({
     const url = `/auth/update-password/${token}`;
     const { data } = await api.post<string>(url, formData);
     return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function getUser() {
+  try {
+    const { data } = await api("/auth/user");
+    console.log(data);
+    return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);

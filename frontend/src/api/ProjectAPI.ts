@@ -24,6 +24,7 @@ export async function createProject(formData: ProjectFormData) {
 
 // Función para obtener todos los proyectos
 export async function getProjects() {
+  
   try {
     // Enviar una solicitud GET para obtener todos los proyectos
     const { data } = await api("/projects");

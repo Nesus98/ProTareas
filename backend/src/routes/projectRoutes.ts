@@ -10,12 +10,12 @@ import { authenticate } from "../middleware/auth";
 // Crea una instancia de Router
 const router = Router();
 
+router.use(authenticate)
+
 // Rutas de proyectos
 //Crear
 router.post(
   "/",
-
-  authenticate,
   //Validacion de datos insertados con mensaje
   body("projectName")
     .notEmpty()
@@ -78,8 +78,6 @@ router.delete(
   ProjectController.deleteProject
 );
 
-
-
 //Routes for Taks
 router.param("projectId", projectExist);
 //Crear
@@ -97,10 +95,8 @@ router.post(
 //Obtener
 router.get("/:projectId/tasks", TaskController.getProjectTasks);
 
-
-router.param('taskId', taskExist)
-router.param('taskId', taskBelongsToProject)
-
+router.param("taskId", taskExist);
+router.param("taskId", taskBelongsToProject);
 
 router.get(
   "/:projectId/tasks/:taskId",

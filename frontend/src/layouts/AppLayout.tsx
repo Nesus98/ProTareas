@@ -1,11 +1,19 @@
-import { Link, Outlet } from "react-router-dom"; // Importa componentes para navegación y renderizado de rutas
+import { Link, Navigate, Outlet } from "react-router-dom"; // Importa componentes para navegación y renderizado de rutas
 import Logo from "@/components/Logo"; // Importa el componente Logo
 import NavMenu from "@/components/NavMenu"; // Importa el componente NavMenu
 import { ToastContainer } from "react-toastify"; // Importa el contenedor para notificaciones
 import "react-toastify/dist/ReactToastify.css"; // Importa los estilos para las notificaciones
+import { useAuth } from "@/hooks/useAuth";
 
 // Componente principal para el diseño de la aplicación
 export default function AppLayout() {
+
+  const { data, isError, isLoading} = useAuth()
+
+  if(isLoading) return 'Cargando...'
+  if(isError){
+    return <Navigate to={'/auth/login'}></Navigate>
+  }
   return (
     <>
       {/* Sección de encabezado */}
