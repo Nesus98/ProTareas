@@ -6,10 +6,10 @@ export class ProjectController {
   // Método estático para crear proyectos
   static createProject = async (req: Request, res: Response) => {
     const project = new Project(req.body);
-    
+
     //Asigna un manager
-    project.manager = req.user.id
-    
+    project.manager = req.user.id;
+
     try {
       await project.save();
       res.send("Proyecto creado correctamente");
@@ -23,8 +23,9 @@ export class ProjectController {
     try {
       const projects = await Project.find({
         $or: [
-          {manager: {$in: req.user.id}}
-        ]
+          { manager: { $in: req.user.id } },
+          { team: { $in: req.user.id } },
+        ],
       });
       res.json(projects);
     } catch (error) {
@@ -42,10 +43,13 @@ export class ProjectController {
         const error = new Error("Proyecto no encontrado");
         return res.status(404).json({ error: error.message });
       }
-      
-      if(project.manager.toString() !== req.user.id.toString()){
+
+      if (
+        project.manager.toString() !== req.user.id.toString() &&
+        !project.team.includes(req.user.id)
+      ) {
         const error = new Error("Accion no valida");
-        return res.status(404).json({ error: error.message });  
+        return res.status(404).json({ error: error.message });
       }
       res.json(project);
     } catch (error) {
@@ -63,9 +67,9 @@ export class ProjectController {
         const error = new Error("Proyecto no encontrado");
         return res.status(404).json({ error: error.message });
       }
-      if(project.manager.toString() !== req.user.id.toString()){
+      if (project.manager.toString() !== req.user.id.toString()) {
         const error = new Error("Solo el manager puede realizar esta accion");
-        return res.status(404).json({ error: error.message });  
+        return res.status(404).json({ error: error.message });
       }
       project.clientName = req.body.clientName;
       project.projectName = req.body.projectName;
@@ -78,7 +82,7 @@ export class ProjectController {
     }
   };
 
-  //Metodo para actualizar proyecto por id
+  //Metodo para eliminar proyecto por id
   static deleteProject = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
@@ -88,9 +92,9 @@ export class ProjectController {
         const error = new Error("Proyecto no encontrado");
         return res.status(404).json({ error: error.message });
       }
-      if(project.manager.toString() !== req.user.id.toString()){
+      if (project.manager.toString() !== req.user.id.toString()) {
         const error = new Error("Solo el manager puede realizar esta accion");
-        return res.status(404).json({ error: error.message });  
+        return res.status(404).json({ error: error.message });
       }
 
       await project.deleteOne();
