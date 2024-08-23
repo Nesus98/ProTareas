@@ -32,6 +32,9 @@ export const userSchema = authSchema
   });
 
 export type User = z.infer<typeof userSchema>;
+
+export type UserProfileForm = Pick<User, 'name' | 'email'>
+
 /** Tasks */
 // Define un esquema para los estados de las tareas usando una enumeración
 export const taskStatusSchema = z.enum([
