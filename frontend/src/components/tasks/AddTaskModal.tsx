@@ -57,7 +57,13 @@ export default function AddTaskModal() {
       queryClient.invalidateQueries({ queryKey: ["editProject", projectId] });
       toast.success(data);
       reset();
-      navigate(location.pathname, { replace: true });
+      window.location.reload(); 
+
+
+      // navigate(location.pathname, { replace: true });
+
+      
+      
     },
   });
 
