@@ -4,10 +4,10 @@ import { Task } from "@/types/index";
 import TaskCard from "./TaskCard";
 import { statusTranslations } from "@/locales/es";
 
-
 // Definir los tipos de propiedades que el componente TaskList acepta
 type TaskListProps = {
   tasks: Task[]; // Lista de tareas
+  canEdit: boolean;
 };
 
 // Definir un tipo para agrupar las tareas por estado
@@ -24,8 +24,6 @@ const initialStatusGroups: GroupedTasks = {
   completed: [],
 };
 
-
-
 // Estilos de borde superior para cada estado de las tareas
 const statusStyles: { [key: string]: string } = {
   pending: "border-t-slate-500",
@@ -36,7 +34,7 @@ const statusStyles: { [key: string]: string } = {
 };
 
 // Componente funcional TaskList que recibe la lista de tareas como propiedad
-export default function TaskList({ tasks }: TaskListProps) {
+export default function TaskList({ tasks, canEdit }: TaskListProps) {
   // Agrupar las tareas por estado usando reduce
   const groupedTasks = tasks.reduce((acc, task) => {
     // Obtener el grupo actual de tareas según su estado, si no existe, crear un grupo vacío
@@ -70,7 +68,9 @@ export default function TaskList({ tasks }: TaskListProps) {
                   No Hay tareas
                 </li>
               ) : (
-                tasks.map((task) => <TaskCard key={task._id} task={task} />)
+                tasks.map((task) => (
+                  <TaskCard key={task._id} task={task} canEdit={canEdit} />
+                ))
               )}
             </ul>
           </div>

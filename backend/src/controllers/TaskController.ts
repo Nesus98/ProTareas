@@ -39,8 +39,12 @@ export class TaskController {
   // Método para obtener una tarea por su ID
   static getTaskByID = async (req: Request, res: Response) => {
     try {
+      const task = await Task.findById(req.task.id).populate({
+        path: "completedBy.user",
+        select: "id name email",
+      });
       // Enviar la tarea como respuesta
-      res.json(req.task);
+      res.json(task);
     } catch (error) {
       // Manejar errores y enviar respuesta de error
       res.status(500).json({ error: "Hubo un error" });
@@ -83,10 +87,16 @@ export class TaskController {
     }
   };
 
+  //Metodo para actualizar una tarea
   static updateStatus = async (req: Request, res: Response) => {
     try {
       const { status } = req.body;
       req.task.status = status;
+      const data = {
+        user: req.user.id,
+        status,
+      };
+      req.task.completedBy.push(data);
       await req.task.save();
       res.send("Tarea Actualizada");
     } catch (error) {

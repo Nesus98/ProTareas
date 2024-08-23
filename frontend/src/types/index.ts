@@ -51,6 +51,13 @@ export const taskSchema = z.object({
   description: z.string(), // Descripción de la tarea
   project: z.string(), // Identificador del proyecto al que pertenece la tarea
   status: taskStatusSchema, // Estado de la tarea (usando el esquema de estado de tarea)
+  completedBy: z.array(
+    z.object({
+      _id: z.string(),
+      user: userSchema,
+      status: taskStatusSchema,
+    })
+  ),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -68,6 +75,7 @@ export const projectSchema = z.object({
   projectName: z.string(), // Nombre del proyecto
   clientName: z.string(), // Nombre del cliente
   description: z.string(), // Descripción del proyecto
+  manager: z.string(userSchema.pick({ _id: true })),
 });
 
 // Define un esquema para el conjunto de proyectos que se muestra en el tablero de control
@@ -77,6 +85,7 @@ export const dashboardProjectSchema = z.array(
     projectName: true,
     clientName: true,
     description: true,
+    manager: true,
   })
 );
 
@@ -96,7 +105,7 @@ const teamMemberSchema = userSchema.pick({
   _id: true,
 });
 
-export const teamMembersSchema = z.array(teamMemberSchema)
+export const teamMembersSchema = z.array(teamMemberSchema);
 
 export type TeamMember = z.infer<typeof teamMemberSchema>;
 export type TeamMemberForm = Pick<TeamMember, "email">;

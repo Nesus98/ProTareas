@@ -40,3 +40,16 @@ export function taskBelongsToProject(
   }
   next()
 }
+
+export function hasAuthorization(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (req.user.id.toString() !== req.project.manager.toString()) {
+    // Si la tarea no pertenece al proyecto actual, enviar respuesta de error 400
+    const error = new Error("Accion no valida");
+    res.status(400).json({ error: error.message });
+  }
+  next()
+}
