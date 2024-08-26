@@ -71,11 +71,20 @@ export const taskSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const TaskProjectSchema = taskSchema.pick({
+  _id: true,
+  name: true,
+  description: true,
+  status: true
+})
+
 // Infer el tipo TypeScript a partir del esquema de tarea
 export type Task = z.infer<typeof taskSchema>;
 
 // Define el tipo de datos para el formulario de tarea (solo los campos necesarios)
 export type TaskFormData = Pick<Task, "name" | "description">;
+
+export type TaskProject = z.infer<typeof TaskProjectSchema>
 
 /** Projects */
 // Define un esquema para un proyecto
@@ -85,6 +94,8 @@ export const projectSchema = z.object({
   clientName: z.string(), // Nombre del cliente
   description: z.string(), // Descripción del proyecto
   manager: z.string(userSchema.pick({ _id: true })),
+  tasks: z.array(TaskProjectSchema),
+  team: z.array(z.string(userSchema.pick({_id: true})))
 });
 
 // Define un esquema para el conjunto de proyectos que se muestra en el tablero de control

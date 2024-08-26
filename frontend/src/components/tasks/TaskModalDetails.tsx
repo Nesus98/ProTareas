@@ -11,7 +11,6 @@ import { getTaskById, updateStatus } from "@/api/TaskAPI";
 import { toast } from "react-toastify";
 import { formatDate } from "@/utils/utils";
 import { statusTranslations } from "@/locales/es";
-import { object } from "zod";
 import { TaskStatus } from "@/types/index";
 
 export default function TaskModalDetails() {

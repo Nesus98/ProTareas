@@ -1,6 +1,6 @@
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getProjectById } from "@/api/ProjectAPI";
+import { getFullProject } from "@/api/ProjectAPI";
 import AddTaskModal from "@/components/tasks/AddTaskModal";
 import TaskList from "@/components/tasks/TaskList";
 import EditTaskData from "@/components/tasks/EditTaskData";
@@ -19,18 +19,17 @@ export default function ProjectDetailsView() {
   // Configuración del hook useQuery para obtener los datos del proyecto
   const { data, isLoading, isError } = useQuery({
     queryKey: ["project", projectId], // Clave única para la consulta
-    queryFn: () => getProjectById(projectId), // Función para obtener los datos del proyecto
+    queryFn: () => getFullProject(projectId), // Función para obtener los datos del proyecto
     retry: false, // Desactiva los reintentos automáticos en caso de error
   });
 
-  const canEdit = useMemo(() => data?.manager === user?._id, [data, user])
+  const canEdit = useMemo(() => data?.manager === user?._id, [data, user]);
 
   // Renderiza un mensaje de carga mientras los datos se están recuperando
   if (isLoading && authLoading) return "Cargando...";
 
   // Si ocurre un error, redirige a la página de error 404
   if (isError) return <Navigate to="/404" />;
-
 
   // Una vez que los datos están disponibles, renderiza los detalles del proyecto y la lista de tareas
   if (data && user)

@@ -1,5 +1,5 @@
 // Importar el tipo de datos Task desde los tipos definidos en el proyecto
-import { Task } from "@/types/index";
+import { TaskProject } from "@/types/index";
 // Importar componentes Menu y Transition de @headlessui/react para manejar el menú desplegable y las transiciones
 import { Menu, Transition } from "@headlessui/react";
 // Importar el ícono de tres puntos verticales de heroicons
@@ -14,7 +14,7 @@ import { useDraggable } from "@dnd-kit/core";
 
 // Definir los tipos de propiedades que el componente TaskCard acepta
 type TaskCardProps = {
-  task: Task;
+  task: TaskProject;
   canEdit: boolean;
 };
 

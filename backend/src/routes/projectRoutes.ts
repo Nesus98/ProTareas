@@ -47,10 +47,13 @@ router.get(
   ProjectController.getProjectById
 );
 
+//Routes for Taks
+router.param("projectId", projectExist);
+
 //Actualizar por ID
 router.put(
-  "/:id",
-  param("id").isMongoId().withMessage("ID no valido"),
+  "/:projectId",
+  param("projectId").isMongoId().withMessage("ID no valido"),
   //Validacion de datos insertados con mensaje
   body("projectName")
     .notEmpty()
@@ -65,22 +68,24 @@ router.put(
     .withMessage("La Descripcion del Proyecto es Obligatoria"),
   //Valida la peticion
   handleInputErrors,
+  hasAuthorization,
   //Obtiene el proyecto una vez pasada la validacion
   ProjectController.updateProject
 );
 
 //Eliminar
 router.delete(
-  "/:id",
-  param("id").isMongoId().withMessage("ID no valido"),
+  "/:projectId",
+  param("projectId").isMongoId().withMessage("ID no valido"),
   //Valida la peticion
   handleInputErrors,
+  hasAuthorization,
   //Obtiene el proyecto una vez pasada la validacion
   ProjectController.deleteProject
 );
 
-//Routes for Taks
-router.param("projectId", projectExist);
+
+
 //Crear
 router.post(
   "/:projectId/tasks",
