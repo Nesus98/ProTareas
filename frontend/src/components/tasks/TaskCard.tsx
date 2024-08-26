@@ -7,13 +7,10 @@ import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 // Importar Fragment de React para agrupar elementos sin agregar nodos extra al DOM
 import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTask } from "@/api/TaskAPI";
 import { toast } from "react-toastify";
+import { useDraggable } from "@dnd-kit/core";
 
 // Definir los tipos de propiedades que el componente TaskCard acepta
 type TaskCardProps = {
@@ -23,6 +20,9 @@ type TaskCardProps = {
 
 // Componente funcional TaskCard que recibe una tarea como propiedad
 export default function TaskCard({ task, canEdit }: TaskCardProps) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task._id,
+  });
   const navigate = useNavigate();
   const params = useParams();
 
@@ -41,18 +41,32 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
     },
   });
 
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        padding: "1.25rem",
+        backgroundColor: "#FFF",
+        width: "300px",
+        display: "flex",
+        borderWidth: "1px",
+        borderColor: "rgb(203 213 225 / var(--tw-border-opacity))",
+      }
+    : undefined;
+
   return (
     // List item que contiene el contenido de la tarjeta de tarea
     <li className="p-5 bg-white border border-slate-300 flex justify-between gap-3">
-      <div className="min-w-0 flex flex-col gap-y-4">
+      <div
+        {...listeners}
+        {...attributes}
+        ref={setNodeRef}
+        style={style}
+        className="min-w-0 flex flex-col gap-y-4"
+      >
         {/* Botón que muestra el nombre de la tarea */}
-        <button
-          type="button"
-          className="text-xl font-bold text-slate-600 text-left"
-          onClick={() => navigate(location.pathname + `?viewTask=${task._id}`)}
-        >
+        <p className="text-xl font-bold text-slate-600 text-left">
           {task.name}
-        </button>
+        </p>
         {/* Párrafo que muestra la descripción de la tarea */}
         <p className="text-slate-500">{task.description}</p>
       </div>

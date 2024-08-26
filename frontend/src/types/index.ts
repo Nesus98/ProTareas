@@ -25,6 +25,7 @@ export type UpdateCurrentUserPasswordForm = Pick<
 >;
 
 export type ConfirmToken = Pick<Auth, "token">;
+export type CheckPasswordForm = Pick<Auth, "password">;
 
 /** Users */
 export const userSchema = authSchema
@@ -96,6 +97,12 @@ export const dashboardProjectSchema = z.array(
     manager: true,
   })
 );
+
+export const editProjectSchema = projectSchema.pick({
+  projectName: true,
+  clientName: true,
+  description: true,
+});
 
 // Infer el tipo TypeScript a partir del esquema de proyecto
 export type Project = z.infer<typeof projectSchema>;

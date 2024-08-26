@@ -3,6 +3,7 @@ import {
   Project,
   ProjectFormData,
   dashboardProjectSchema,
+  editProjectSchema,
 } from "@/types/index";
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
@@ -49,7 +50,10 @@ export async function getProjectById(id: Project["_id"]) {
   try {
     // Enviar una solicitud GET para obtener un proyecto por su ID
     const { data } = await api(`/projects/${id}`);
-    return data;
+    const response = editProjectSchema.safeParse(data)
+    if(response.success){
+      return response.data
+    }
   } catch (error) {
     // Manejar errores de Axios específicamente
     if (isAxiosError(error) && error.response) {
