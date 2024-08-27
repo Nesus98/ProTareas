@@ -16,6 +16,7 @@ import ProfileView from "./views/profile/ProfileView";
 import ChangePasswordView from "./views/profile/ChangePasswordView";
 import ProfileLayout from "./layouts/ProfileLayout";
 import NotFound from "./views/404/NotFound";
+import Contact from "./views/contact/Contact";
 
 export default function Router() {
   return (
@@ -23,6 +24,7 @@ export default function Router() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<DashboardView />} index />
+          <Route path="/contact" element={<Contact />} index />
           <Route path="/projects/create" element={<CreateProjectView />}/>
           <Route path="/projects/:projectId/" element={<ProjectDetailsView />}/>
           <Route path="/projects/:projectId/edit" element={<EditProjectView />}/>

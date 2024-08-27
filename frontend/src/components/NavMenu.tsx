@@ -40,8 +40,8 @@ export default function NavMenu({name}: NavMenuProps) {
             <Link to="/profile" className="block p-2 hover:text-purple-950">
               Mi Perfil
             </Link>
-            <Link to="/" className="block p-2 hover:text-purple-950">
-              Mis Proyectos
+            <Link to="/contact" className="block p-2 hover:text-purple-950">
+              Contacto
             </Link>
             <button
               className="block p-2 hover:text-purple-950"
