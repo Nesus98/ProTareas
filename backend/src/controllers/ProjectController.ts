@@ -64,7 +64,7 @@ export class ProjectController {
       req.project.projectName = req.body.projectName;
       req.project.description = req.body.description;
 
-      await req.roject.save();
+      await req.project.save();
       res.send("Proyecto Actualizado");
     } catch (error) {
       console.log(error);

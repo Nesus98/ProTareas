@@ -29,6 +29,7 @@ export default function RegisterView() {
     },
     onSuccess: (data) => {
       toast.success(data);
+
       reset();
     },
   });
