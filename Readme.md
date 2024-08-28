@@ -65,7 +65,7 @@ After setting up both the frontend and backend, navigate to the frontend applica
 
 
 
-```http
+```
   For Users
 ```
 
@@ -80,7 +80,7 @@ After setting up both the frontend and backend, navigate to the frontend applica
 | http://localhost:4000/api/auth/profile         | PUT      | update profile  |
 | http://localhost:4000/api/auth/update-password | POST     | update password |
 
-```http
+```
   For Team Members
 ```
 
@@ -92,7 +92,7 @@ After setting up both the frontend and backend, navigate to the frontend applica
 |http://localhost:4000/api/projects/${projectId}/team        | GET      | get project members |
 
 
-```http
+```
   For Projects
 ```
 
@@ -105,7 +105,7 @@ After setting up both the frontend and backend, navigate to the frontend applica
 | http://localhost:4000/api/projects/${projectId} | DEL      | delete project   |
 
 
-```http
+```
   For Tasks
 ```
 
