@@ -2,8 +2,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../../components/ErrorMessage"; // Asegúrate de que este componente exista
-import { useRef } from "react";
-import emailjs from "@emailjs/browser";
 
 type ContactFormProps = {
   nombre: string;
@@ -12,9 +10,7 @@ type ContactFormProps = {
   mensaje: string;
 };
 
-export default function ContactForm() {
-  const form = useRef<HTMLFormElement>(null);
-
+export default function Contact() {
   const {
     register,
     handleSubmit,
@@ -25,29 +21,18 @@ export default function ContactForm() {
   const navigate = useNavigate();
 
   const handleContactFormSubmit = () => {
-    if (form.current) {
-      emailjs
-        .sendForm("service_acm3lac", "template_9cn89ng", form.current, {
-          publicKey: "DKXia1mpgRghGeljX",
-        })
-        .then(
-          () => {
-            // Simula un envío exitoso
-            toast.success("Mensaje enviado con éxito",{
-              autoClose:2500,
-            });
-            // Limpia los campos del formulario
-            reset();
-            // Redirige a la página de inicio después de 3 segundos
-            setTimeout(() => {
-              navigate("/");
-            }, 3000); // 3000 milisegundos = 3 segundos
-          },
-          (error) => {
-            console.log("FAILED...", error.text);
-          }
-        );
-    }
+    // Simula un envío exitoso
+    toast.success("Mensaje enviado con éxito", {
+      autoClose: 2500,
+    });
+
+    // Limpia los campos del formulario
+    reset();
+
+    // Redirige a la página de inicio después de 3 segundos
+    setTimeout(() => {
+      navigate("/");
+    }, 3000); // 3000 milisegundos = 3 segundos
   };
 
   return (
@@ -67,7 +52,6 @@ export default function ContactForm() {
         </p>
 
         <form
-          ref={form}
           onSubmit={handleSubmit(handleContactFormSubmit)}
           className="mt-14 space-y-5 bg-white shadow-lg p-10 rounded-l"
           noValidate
