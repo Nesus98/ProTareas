@@ -90,17 +90,30 @@ export class TaskController {
   //Metodo para actualizar una tarea
   static updateStatus = async (req: Request, res: Response) => {
     try {
-      const { status } = req.body;
-      req.task.status = status;
-      const data = {
-        user: req.user.id,
-        status,
-      };
-      req.task.completedBy.push(data);
-      await req.task.save();
-      res.send("Tarea Actualizada");
+        // Extrae el nuevo estado de la tarea 
+        const { status } = req.body;
+
+        // Actualiza el estado de la tarea con el nuevo valor proporcionado
+        req.task.status = status;
+
+        // Crea un objeto con la información del usuario y el nuevo estado
+        const data = {
+            user: req.user.id, // ID del usuario que actualizó la tarea
+            status, // Nuevo estado de la tarea
+        };
+
+        // Añade la información del usuario y el nuevo estado al historial de cambios de la tarea
+        req.task.completedBy.push(data);
+
+        // Guarda los cambios en la tarea en la base de datos
+        await req.task.save();
+
+        // Envía una respuesta exitosa al cliente
+        res.send("Tarea Actualizada");
     } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
+        // En caso de error, envía una respuesta de error al cliente
+        res.status(500).json({ error: "Hubo un error" });
     }
-  };
+};
+
 }

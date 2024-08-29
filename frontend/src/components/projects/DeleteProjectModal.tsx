@@ -10,24 +10,37 @@ import { toast } from "react-toastify";
 import { deleteProject } from "@/api/ProjectAPI";
 
 export default function DeleteProjectModal() {
+  // Valores iniciales para el formulario de verificación de contraseña
   const initialValues: CheckPasswordForm = {
     password: "",
   };
+
+  // Hook para obtener la ubicación actual, incluyendo parámetros de consulta en la URL
   const location = useLocation();
+
+  // Hook para redirigir a diferentes rutas en la aplicación
   const navigate = useNavigate();
 
+  // Obtiene los parámetros de consulta de la URL
   const queryParams = new URLSearchParams(location.search);
+
+  // Extrae el ID del proyecto que se desea eliminar de los parámetros de consulta
   const deleteProjectId = queryParams.get("deleteProject")!;
+
+  // Determina si se debe mostrar la interfaz para eliminar un proyecto en función de la presencia del ID
   const show = deleteProjectId ? true : false;
 
+// Inicializa el hook useForm con los valores predeterminados para el formulario
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
+  // Hook para acceder y manipular el caché de queries de react-query
   const queryClient = useQueryClient();
 
+  // Configuración del hook useMutation para verificar la contraseña del usuario
   const checkUserPasswordMutation = useMutation({
     mutationFn: checkPassword,
     onError: (error) => toast.error(error.message),
@@ -46,6 +59,7 @@ export default function DeleteProjectModal() {
     },
   });
 
+  // Función que maneja el envío del formulario, incluyendo la verificación de la contraseña y la eliminación del proyecto
   const handleForm = async (formData: CheckPasswordForm) => {
     await checkUserPasswordMutation.mutateAsync(formData);
     await deleteProjectMutation.mutateAsync(deleteProjectId);

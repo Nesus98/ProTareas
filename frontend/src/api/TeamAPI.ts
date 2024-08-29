@@ -2,6 +2,7 @@ import api from "@/lib/axios";
 import { isAxiosError } from "axios";
 import { Project, TeamMember, TeamMemberForm, teamMembersSchema } from "../types";
 
+//Busca un usuario por su email dentro del proyecto
 export async function findUserByEmail({
   projectId,
   formData,
@@ -21,6 +22,7 @@ export async function findUserByEmail({
   }
 }
 
+//Añadir usuario a un proyecto
 export async function addUserToProject({
   projectId,
   id,
@@ -40,6 +42,7 @@ export async function addUserToProject({
   }
 }
 
+//Obtiene los miembros del equipo de un proyecto
 export async function getProjectTeam(projectId: Project["_id"]) {
   try {
     const url = `/projects/${projectId}/team`;
@@ -55,6 +58,7 @@ export async function getProjectTeam(projectId: Project["_id"]) {
   }
 }
 
+// Elimina un usuario de un proyecto
 export async function removeUserFromProject({
     projectId,
     userId,

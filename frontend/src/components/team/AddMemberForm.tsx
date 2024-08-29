@@ -7,30 +7,41 @@ import { findUserByEmail } from "@/api/TeamAPI";
 import SearchResult from "./SearchResult";
 
 export default function AddMemberForm() {
+  // Define los valores iniciales para el formulario de miembro del equipo
   const initialValues: TeamMemberForm = {
     email: "",
   };
+
+  // Hook para acceder a los parámetros de la URL en la aplicación React
   const params = useParams();
+
+  // Obtiene el ID del proyecto desde los parámetros de la URL
   const projectId = params.projectId!;
 
+  // Hook para manejar el formulario, con valores iniciales y gestión de errores
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
+    register, // Función para registrar inputs del formulario
+    handleSubmit, // Función para manejar el envío del formulario
+    reset, // Función para reiniciar el formulario
+    formState: { errors }, // Estado del formulario, incluyendo errores
   } = useForm({ defaultValues: initialValues });
 
+  // Hook para realizar una mutación con React Query
   const mutation = useMutation({
     mutationFn: findUserByEmail,
   });
 
+  // Función para manejar la búsqueda de un usuario cuando se envía el formulario
   const handleSearchUser = async (formData: TeamMemberForm) => {
     const data = { projectId, formData };
+
     mutation.mutate(data);
   };
 
+  // Función para reiniciar el formulario y la mutación
   const resetData = () => {
-    reset(), mutation.reset();
+    reset(); // Reinicia los valores del formulario a los valores iniciales
+    mutation.reset(); // Reinicia el estado de la mutación
   };
 
   return (
@@ -71,7 +82,9 @@ export default function AddMemberForm() {
         {mutation.error && (
           <p className="text-center">{mutation.error.message}</p>
         )}
-        {mutation.data && <SearchResult user={mutation.data} reset={resetData}/>}
+        {mutation.data && (
+          <SearchResult user={mutation.data} reset={resetData} />
+        )}
       </div>
     </>
   );

@@ -1,8 +1,8 @@
-import { Link, Navigate, Outlet } from "react-router-dom"; // Importa componentes para navegación y renderizado de rutas
-import Logo from "@/components/Logo"; // Importa el componente Logo
-import NavMenu from "@/components/NavMenu"; // Importa el componente NavMenu
-import { ToastContainer } from "react-toastify"; // Importa el contenedor para notificaciones
-import "react-toastify/dist/ReactToastify.css"; // Importa los estilos para las notificaciones
+import { Link, Navigate, Outlet } from "react-router-dom"; 
+import Logo from "@/components/Logo"; 
+import NavMenu from "@/components/NavMenu"; 
+import { ToastContainer } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "@/hooks/useAuth";
 
 // Componente principal para el diseño de la aplicación
@@ -16,26 +16,21 @@ export default function AppLayout() {
   }
   if(data) return (
     <>
-      {/* Sección de encabezado */}
       <header className="bg-gray-800 py-5">
         <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center">
-          {/* Contenedor para el logotipo */}
           <div className="w-64">
-            <Link to={"/"}> {/* Enlace a la página de inicio */}
-              <Logo /> {/* Componente Logo */}
+            <Link to={"/"}>
+              <Logo /> 
             </Link>
           </div>
-          {/* Menú de navegación */}
           <NavMenu name={data.name}/>
         </div>
       </header>
 
-      {/* Sección principal donde se renderizan las rutas hijas */}
       <section className="max-w-screen-2xl mx-auto mt-10 p-5">
-        <Outlet /> {/* Renderiza el componente de la ruta secundaria */}
+        <Outlet />
       </section>
 
-      {/* Sección de pie de página */}
       <footer className="py-5">
         <p className="text-center">
           {" "}

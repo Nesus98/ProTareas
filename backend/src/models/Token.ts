@@ -1,11 +1,13 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
 
+// Define la interfaz IToken para el documento del token en MongoDB
 export interface IToken extends Document {
   token: number;
   user: Types.ObjectId;
   createdAt: Date;
 }
 
+// Define el esquema del token
 const tokenSchema: Schema = new Schema({
   token: {
     type: String,
@@ -22,5 +24,7 @@ const tokenSchema: Schema = new Schema({
   },
 });
 
+// Crea el modelo del token usando el esquema definido
 const Token = mongoose.model<IToken>("Token", tokenSchema);
+
 export default Token;

@@ -23,6 +23,7 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route element={<AppLayout />}>
+        {/* Inicio y proyectos */}
           <Route path="/" element={<DashboardView />} index />
           <Route path="/contact" element={<Contact/>} index />
           <Route path="/projects/create" element={<CreateProjectView />}/>
@@ -30,6 +31,7 @@ export default function Router() {
           <Route path="/projects/:projectId/edit" element={<EditProjectView />}/>
           <Route path="/projects/:projectId/team" element={<ProjectTeamView />}/>
 
+        {/* Perfil */}
         <Route element={<ProfileLayout />}>
           <Route path="/profile" element={<ProfileView />}/>
           <Route path="/profile/password" element={<ChangePasswordView />}/>
@@ -37,7 +39,10 @@ export default function Router() {
         
         </Route>
 
+
         <Route element={<AuthLayout/>}>
+
+        {/*Vista de registro de usuario */}
           <Route path="/auth/login" element={<LoginView/>} />
           <Route path="/auth/register" element={<RegisterView/>} />
           <Route path="/auth/confirm-account" element={<ConfirmAccountView/>} />
@@ -46,6 +51,7 @@ export default function Router() {
           <Route path="/auth/new-password" element={<NewPasswordView/>} />
         </Route>
 
+        {/* Vista de error en la url */}
         <Route element={<AuthLayout/>}>
           <Route path="/404" element={<NotFound/>}/>
         </Route>

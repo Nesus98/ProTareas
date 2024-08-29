@@ -2,6 +2,7 @@ import mongoose, { Schema, Document, PopulatedDoc, Types } from "mongoose";
 import Task, { ITask, TaskSchema } from "./Task"; // Asegúrate de importar TaskSchema también
 import { IUser } from "./User";
 
+// Define la interfaz IProject para el documento del proyecto en MongoDB
 export interface IProject extends Document {
   projectName: string;
   clientName: string;
@@ -11,6 +12,7 @@ export interface IProject extends Document {
   team: PopulatedDoc<IUser & Document>[];
 }
 
+// Define el esquema del proyecto
 export const ProjectSchema: Schema = new Schema(
   {
     projectName: {
@@ -49,16 +51,19 @@ export const ProjectSchema: Schema = new Schema(
 );
 
 //Middleware
-ProjectSchema.pre('deleteOne', {document: true}, async function(){
-  const projectId = this._id
-   if(!projectId) return
-   const tasks = await Task.find({project: projectId})
-  //  for(const task of tasks){
-  //   await Note.deleteMany({task: task._id})
-  //  }
-   await Task.deleteMany({project:projectId})
-})
+ProjectSchema.pre("deleteOne", { document: true }, async function () {
+  //Obtiene el id del proyecto a eliminar
+  const projectId = this._id;
 
+  if (!projectId) return;
+  // Encuentra todas las tareas asociadas con el proyecto
+  const tasks = await Task.find({ project: projectId });
+
+  // Elimina todas las tareas asociadas con el proyecto
+  await Task.deleteMany({ project: projectId });
+});
+
+// Crea el modelo del proyecto usando el esquema definido
 const Project = mongoose.model<IProject>("Project", ProjectSchema);
 
 export default Project;

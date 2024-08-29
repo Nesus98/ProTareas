@@ -9,10 +9,15 @@ type SearchResultProps = {
   reset: () => void;
 };
 export default function SearchResult({ user, reset }: SearchResultProps) {
+  // Hook para obtener los parámetros de la URL de la ruta actual
   const params = useParams();
+  // Extrae el ID del proyecto de los parámetros de la URL
   const projectId = params.projectId!;
 
+  // Hook para acceder y manipular el caché de consultas de React Query
   const queryClient = useQueryClient();
+
+  // Configuración del hook useMutation para manejar la mutación de agregar un usuario al proyecto
   const { mutate } = useMutation({
     mutationFn: addUserToProject,
     onError: (error) => {
@@ -21,15 +26,18 @@ export default function SearchResult({ user, reset }: SearchResultProps) {
     onSuccess: (data) => {
       toast.success(data);
       reset();
+      // Invalida las consultas asociadas al equipo del proyecto para que se actualicen
       queryClient.invalidateQueries({ queryKey: ["projectTeam", projectId] });
     },
   });
 
+  // Función que se llama para agregar un usuario al proyecto
   const handleAddUserToProject = () => {
     const data = {
       projectId,
       id: user._id,
     };
+    // Ejecuta la mutación con los datos proporcionados
     mutate(data);
   };
 

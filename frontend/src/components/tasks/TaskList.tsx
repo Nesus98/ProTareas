@@ -1,7 +1,5 @@
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-// Importar el tipo Task desde los tipos definidos en el proyecto
 import { Project, TaskProject, TaskStatus } from "@/types/index";
-// Importar el componente TaskCard para mostrar cada tarea individualmente
 import TaskCard from "./TaskCard";
 import { statusTranslations } from "@/locales/es";
 import DropTask from "./DropTask";
@@ -12,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 // Definir los tipos de propiedades que el componente TaskList acepta
 type TaskListProps = {
-  tasks: TaskProject[]; // Lista de tareas
+  tasks: TaskProject[];
   canEdit: boolean;
 };
 
@@ -41,11 +39,21 @@ const statusStyles: { [key: string]: string } = {
 
 // Componente funcional TaskList que recibe la lista de tareas como propiedad
 export default function TaskList({ tasks, canEdit }: TaskListProps) {
+  
+  // Hook para acceder a los parámetros de la URL en la aplicación React
   const params = useParams();
+
+  // Obtiene el ID del proyecto desde los parámetros de la URL
   const projectId = params.projectId!;
+
+  // Hook para interactuar con el caché de consultas de React Query
   const queryClient = useQueryClient();
+
+  // Configuración del hook useMutation para actualizar el estado
   const { mutate } = useMutation({
+    // Función que realiza la mutación para actualizar el estado
     mutationFn: updateStatus,
+
     onError: (error) => {
       toast.error(error.message);
     },
@@ -54,6 +62,7 @@ export default function TaskList({ tasks, canEdit }: TaskListProps) {
       queryClient.invalidateQueries({ queryKey: ["project", projectId] });
     },
   });
+
   // Agrupar las tareas por estado usando reduce
   const groupedTasks = tasks.reduce((acc, task) => {
     // Obtener el grupo actual de tareas según su estado, si no existe, crear un grupo vacío
@@ -73,19 +82,19 @@ export default function TaskList({ tasks, canEdit }: TaskListProps) {
       mutate({ projectId, taskId, status });
 
       queryClient.setQueryData(["project", projectId], (prevData: Project) => {
-        const updatedTasks = prevData.tasks.map((task)=>{
-          if(task._id === taskId){
-              return {
-                ...task,
-                status
-              }
+        const updatedTasks = prevData.tasks.map((task) => {
+          if (task._id === taskId) {
+            return {
+              ...task,
+              status,
+            };
           }
-          return task
-        })
+          return task;
+        });
         return {
           ...prevData,
-          tasks: updatedTasks
-        }
+          tasks: updatedTasks,
+        };
       });
     }
   };

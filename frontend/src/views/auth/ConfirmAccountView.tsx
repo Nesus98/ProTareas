@@ -7,28 +7,35 @@ import { confirmAccount } from "@/api/AuthAPI";
 import { toast } from "react-toastify";
 
 export default function ConfirmAccountView() {
+  // Se utiliza useState para manejar el estado del token de confirmación.
+  // Este estado almacenará el token que el usuario introduce.
   const [token, setToken] = useState<ConfirmToken["token"]>("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const {mutate} = useMutation({
+  //Redirecciona al usuario
+  const { mutate } = useMutation({
     mutationFn: confirmAccount,
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      toast.success(data,{
-        autoClose:2500,
+      toast.success(data, {
+        autoClose: 2500,
       });
       setTimeout(() => {
-        navigate('/')
+        navigate("/");
       }, 3000);
     },
   });
-
+  // Función que se llama cada vez que el token cambia.
+  // Se actualiza el estado del token con el nuevo valor introducido por el usuario.
   const handleChange = (token: ConfirmToken["token"]) => {
     setToken(token);
   };
-  const handleComplete = (token: ConfirmToken["token"]) => mutate({token})
+
+  // Función que se llama cuando el usuario completa la introducción del token.
+  // Esta función ejecuta la mutación para confirmar la cuenta con el token proporcionado.
+  const handleComplete = (token: ConfirmToken["token"]) => mutate({ token });
   return (
     <>
       <h1 className="text-5xl font-black text-white">Confirma tu Cuenta</h1>

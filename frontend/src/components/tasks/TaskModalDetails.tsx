@@ -14,49 +14,74 @@ import { statusTranslations } from "@/locales/es";
 import { TaskStatus } from "@/types/index";
 
 export default function TaskModalDetails() {
+  // Hook para acceder a los parámetros de la URL en la aplicación React
   const params = useParams();
+
+  // Obtiene el ID del proyecto desde los parámetros de la URL
   const projectId = params.projectId!;
+
+  // Hook para la navegación en la aplicación React
   const navigate = useNavigate();
+
+  // Hook para acceder a la ubicación actual de la página
   const location = useLocation();
+
+  // Extrae los parámetros de la consulta de la URL
   const queryParams = new URLSearchParams(location.search);
+
+  // Obtiene el ID de la tarea desde los parámetros de la consulta
   const taskId = queryParams.get("viewTask")!;
 
+  // Determina si se debe mostrar la vista de la tarea basado en la presencia del taskId
   const show = taskId ? true : false;
 
+  // Hook para realizar consultas de datos usando React Query
   const { data, isError, error } = useQuery({
     queryKey: ["task", taskId],
+
     queryFn: () => getTaskById({ projectId, taskId }),
+
     enabled: !!taskId,
+
     retry: false,
   });
 
+  // Hook para interactuar con el caché de consultas de React Query
   const queryClient = useQueryClient();
 
+  // Función para manejar cambios en un elemento <select>
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const status = e.target.value as TaskStatus;
 
     const data = { projectId, taskId, status };
-    console.log(data);
+
+    // Llama a la función mutate para actualizar el estado
     mutate(data);
   };
 
+  // Configuración del hook useMutation para actualizar el estado de la tarea
   const { mutate } = useMutation({
     mutationFn: updateStatus,
+
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: (data) => {
       toast.success(data);
+
+      // Invalida el caché de consultas para el proyecto y la tarea para actualizar los datos
       queryClient.invalidateQueries({ queryKey: ["project", projectId] });
       queryClient.invalidateQueries({ queryKey: ["task", taskId] });
     },
   });
 
+  // Maneja los errores de la consulta y redirige si ocurre un error
   if (isError) {
     toast.error(error.message, { toastId: "error" });
     return <Navigate to={`/projects/${projectId}`} />;
   }
 
+  //Si data = true entonces mostrara el contenido
   if (data)
     return (
       <>

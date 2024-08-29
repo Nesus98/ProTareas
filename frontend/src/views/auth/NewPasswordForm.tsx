@@ -8,15 +8,16 @@ import { toast } from "react-toastify";
 
 type NewPasswordFormProps = {
   token: ConfirmToken["token"];
-
 };
 
-export default function NewPasswordForm({token} : NewPasswordFormProps) {
+export default function NewPasswordForm({ token }: NewPasswordFormProps) {
   const navigate = useNavigate();
+
   const initialValues: NewPasswordForm = {
     password: "",
     password_confirmation: "",
   };
+
   const {
     register,
     handleSubmit,
@@ -33,18 +34,20 @@ export default function NewPasswordForm({token} : NewPasswordFormProps) {
     onSuccess: (data) => {
       toast.success(data);
       reset();
-      navigate('/auth/login')
+      navigate("/auth/login");
     },
   });
 
+  // maneja la actualización de la contraseña.
   const handleNewPassword = (formData: NewPasswordForm) => {
     const data = {
       formData,
-      token
-    }
-    mutate(data)
+      token,
+    };
+    mutate(data);
   };
 
+  //Guarda el valor actual del campo "password" en el formulario.
   const password = watch("password");
 
   return (

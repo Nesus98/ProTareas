@@ -11,6 +11,7 @@ import {
   userSchema,
 } from "../types";
 
+// Envía una solicitud para crear una nueva cuenta de usuario.
 export async function createAccount(formData: UserRegistrationForm) {
   try {
     const url = "/auth/create-account";
@@ -22,7 +23,7 @@ export async function createAccount(formData: UserRegistrationForm) {
     }
   }
 }
-
+//  Confirma una cuenta de usuario usando un token.
 export async function confirmAccount(formData: ConfirmToken) {
   try {
     const url = "/auth/confirm-account";
@@ -34,7 +35,7 @@ export async function confirmAccount(formData: ConfirmToken) {
     }
   }
 }
-
+// Solicita un código de confirmación para un usuario.
 export async function requestConfirmationCode(
   formData: RequestConfirmationCodeForm
 ) {
@@ -48,7 +49,7 @@ export async function requestConfirmationCode(
     }
   }
 }
-
+// Autentica al usuario y almacena el token en el almacenamiento local
 export async function authenticateUser(formData: UserLoginForm) {
   try {
     const url = "/auth/login";
@@ -61,7 +62,7 @@ export async function authenticateUser(formData: UserLoginForm) {
     }
   }
 }
-
+//Solicita el restablecimiento de la contraseña.
 export async function forgotPassword(formData: ForgotPasswordForm) {
   try {
     const url = "/auth/forgot-password";
@@ -74,6 +75,7 @@ export async function forgotPassword(formData: ForgotPasswordForm) {
   }
 }
 
+//Valida un token para restablecimiento de contraseña o confirmación de cuenta.
 export async function validateToken(formData: ConfirmToken) {
   try {
     const url = "/auth/validate-token";
@@ -86,6 +88,7 @@ export async function validateToken(formData: ConfirmToken) {
   }
 }
 
+// Actualiza la contraseña utilizando un token de restablecimiento.
 export async function updatePasswordWithToken({
   formData,
   token,
@@ -103,7 +106,7 @@ export async function updatePasswordWithToken({
     }
   }
 }
-
+//  Obtiene los datos del usuario autenticado
 export async function getUser() {
   try {
     const { data } = await api("/auth/user");
@@ -120,6 +123,7 @@ export async function getUser() {
   }
 }
 
+//Verifica la contraseña actual del usuario.
 export async function checkPassword(formData: CheckPasswordForm) {
   try {
     const url = "/auth/check-password";

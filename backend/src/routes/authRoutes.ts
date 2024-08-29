@@ -1,5 +1,4 @@
 import { Router } from "express";
-
 import { body, param } from "express-validator";
 import { AuthController } from "../controllers/AuthController";
 import { handleInputErrors } from "../middleware/validation";
@@ -7,6 +6,7 @@ import { authenticate } from "../middleware/auth";
 
 const router = Router();
 
+// Ruta para crear cuenta
 router.post(
   "/create-account",
   body("name").notEmpty().withMessage("El nombre no puede ir vacio"),
@@ -24,6 +24,7 @@ router.post(
   AuthController.createAccount
 );
 
+// Ruta para confirmar una cuenta usando un token
 router.post(
   "/confirm-account",
   body("token").notEmpty().withMessage("El token no puede ir vacio"),
@@ -31,6 +32,7 @@ router.post(
   AuthController.confirmAccount
 );
 
+// Ruta para iniciar sesión
 router.post(
   "/login",
   body("email").isEmail().withMessage("E-mail no valido"),
@@ -39,6 +41,7 @@ router.post(
   AuthController.login
 );
 
+// Ruta para solicitar un nuevo código de confirmación
 router.post(
   "/request-code",
   body("email").isEmail().withMessage("E-mail no valido"),
@@ -46,6 +49,7 @@ router.post(
   AuthController.requestConfirmationCode
 );
 
+// Ruta para solicitar un cambio de contraseña
 router.post(
   "/forgot-password",
   body("email").isEmail().withMessage("E-mail no valido"),
@@ -53,6 +57,7 @@ router.post(
   AuthController.forgotPassword
 );
 
+// Ruta para validar el token de cambio de contraseña
 router.post(
   "/validate-token",
   body("token").notEmpty().withMessage("El token no puede ir vacio"),
@@ -60,6 +65,7 @@ router.post(
   AuthController.validateToken
 );
 
+// Ruta para actualizar la contraseña usando un token
 router.post(
   "/update-password/:token",
   param("token").isNumeric().withMessage("Token no valido"),
@@ -76,9 +82,10 @@ router.post(
   AuthController.updatePasswordWithToken
 );
 
+// Ruta para obtener la información del usuario autenticado
 router.get("/user", authenticate, AuthController.user);
 
-/**Profile */
+// Rutas para actualizar el perfil del usuario autenticado
 router.put(
   "/profile",
   authenticate,
@@ -88,6 +95,7 @@ router.put(
   AuthController.updateProfile
 );
 
+// Ruta para actualizar la contraseña del usuario autenticado
 router.post(
   "/update-password",
   authenticate,
@@ -107,6 +115,7 @@ router.post(
   AuthController.updateCurrentUserPassword
 );
 
+// Ruta para verificar la contraseña del usuario autenticado
 router.post(
   "/check-password",
   authenticate,

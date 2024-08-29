@@ -10,15 +10,23 @@ type ProfileFormProps = {
   data: User;
 };
 
+//Pagina para actualizar datos del usuario (email y nombre)
 export default function ProfileForm({ data }: ProfileFormProps) {
+
+  // Desestructura las funciones y estados de useForm para manejar el formulario de perfil de usuario
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<UserProfileForm>({ defaultValues: data });
+
+  //Hook para redirigir al usuario
   const navigate = useNavigate();
 
+   // Hook para acceder y manipular el cache de queries de react-query
   const queryClient = useQueryClient();
+
+  // Hook para manejar una mutación (enviar datos al servidor)
   const { mutate } = useMutation({
     mutationFn: updateProfile,
     onError: (error) => toast.error(error.message),
@@ -28,6 +36,7 @@ export default function ProfileForm({ data }: ProfileFormProps) {
     },
   });
 
+  // Función que se llama al enviar el formulario, llamando a `mutate` con los datos del formulario para actualizar el perfil
   const handleEditProfile = (formData: UserProfileForm) => mutate(formData);
 
   return (

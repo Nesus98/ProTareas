@@ -1,6 +1,6 @@
 import { transporter } from "../config/nodemailer";
 4;
-
+//Tipo de Email
 interface IEmail {
   email: string;
   name: string;
@@ -8,6 +8,8 @@ interface IEmail {
 }
 
 export class AuthEmail {
+
+    //Envia email para confirmar la cuenta 
   static sendConfirmationEmail = async (user: IEmail) => {
     //Enviar email
     const info = await transporter.sendMail({
@@ -24,6 +26,7 @@ export class AuthEmail {
     console.log("Mensaje enviado", info.messageId);
   };
 
+  //Envio de token para reestablecer password
   static sendPasswordResetToken = async (user: IEmail) => {
     //Enviar email
     const info = await transporter.sendMail({

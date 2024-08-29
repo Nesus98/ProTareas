@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 type NewPasswordTokenProps = {
   token: ConfirmToken["token"];
   setToken: React.Dispatch<React.SetStateAction<string>>;
-
   setIsValidToken: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -28,9 +27,13 @@ export default function NewPasswordToken({
     },
   });
 
+  // Función para manejar cambios en el valor del token.
+  // Se llama cuando el token se actualiza en el formulario o componente.
   const handleChange = (token: ConfirmToken["token"]) => {
     setToken(token);
   };
+
+  // Función para manejar la finalización del ingreso del token.
   const handleComplete = (token: ConfirmToken["token"]) => mutate({ token });
 
   return (

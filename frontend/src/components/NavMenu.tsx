@@ -6,19 +6,19 @@ import { User } from "../types";
 import { useQueryClient } from "@tanstack/react-query";
 
 type NavMenuProps = {
-  name: User['name']
-}
+  name: User["name"];
+};
 
-
-export default function NavMenu({name}: NavMenuProps) {
-  const queryClient = useQueryClient()
-  const navigate = useNavigate()
+//Menu hamburguesa
+export default function NavMenu({ name }: NavMenuProps) {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem('AUTH_TOKEN')
-    queryClient.removeQueries({queryKey: ['user']})
-    navigate('/auth/login')
-  }
+    localStorage.removeItem("AUTH_TOKEN");
+    queryClient.removeQueries({ queryKey: ["user"] });
+    navigate("/auth/login");
+  };
   return (
     <Popover className="relative">
       <Popover.Button className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-purple-400">

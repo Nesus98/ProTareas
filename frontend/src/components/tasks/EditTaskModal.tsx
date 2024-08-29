@@ -8,18 +8,21 @@ import TaskForm from "./TaskForm";
 import { updateTask } from "@/api/TaskAPI";
 import { toast } from "react-toastify";
 
+//Datos esperados
 type EditTaskModalProps = {
   data: Task;
   taskId: Task["_id"];
 };
 
 export default function EditTaskModal({ data, taskId }: EditTaskModalProps) {
+  //Hook para redireccionar
   const navigate = useNavigate();
 
   /** Obtener projectId */
   const params = useParams();
   const projectId = params.projectId!;
 
+  // Hook useForm de React Hook Form para manejar el formulario
   const {
     register,
     handleSubmit,
@@ -32,8 +35,10 @@ export default function EditTaskModal({ data, taskId }: EditTaskModalProps) {
     },
   });
 
+  // Hook de React Query para acceder y manipular el caché de consultas
   const queryClient = useQueryClient();
 
+  // Hook useMutation de React Query para gestionar la mutación (actualización de datos)
   const { mutate } = useMutation({
     mutationFn: updateTask,
     onError: (error) => {
@@ -48,13 +53,14 @@ export default function EditTaskModal({ data, taskId }: EditTaskModalProps) {
     },
   });
 
+  // Función para manejar el envío del formulario
   const handleEditTask = (formData: TaskFormData) => {
     const data = {
       projectId,
       taskId,
       formData,
     };
-    mutate(data);
+    mutate(data); // Ejecuta la mutación para actualizar la tarea con los datos proporcionados
   };
 
   return (

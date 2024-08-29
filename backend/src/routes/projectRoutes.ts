@@ -4,7 +4,11 @@ import { ProjectController } from "../controllers/ProjectController";
 import { handleInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
 import { projectExist } from "../middleware/project";
-import { hasAuthorization, taskBelongsToProject, taskExist } from "../middleware/task";
+import {
+  hasAuthorization,
+  taskBelongsToProject,
+  taskExist,
+} from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamMemberController } from "../controllers/TeamController";
 
@@ -84,8 +88,6 @@ router.delete(
   ProjectController.deleteProject
 );
 
-
-
 //Crear
 router.post(
   "/:projectId/tasks",
@@ -105,6 +107,7 @@ router.get("/:projectId/tasks", TaskController.getProjectTasks);
 router.param("taskId", taskExist);
 router.param("taskId", taskBelongsToProject);
 
+//Obtener tarea por tu id
 router.get(
   "/:projectId/tasks/:taskId",
   param("taskId").isMongoId().withMessage("ID no valido"),
@@ -112,6 +115,7 @@ router.get(
   handleInputErrors,
   TaskController.getTaskByID
 );
+
 //Actualizar
 router.put(
   "/:projectId/tasks/:taskId",
@@ -125,6 +129,7 @@ router.put(
   handleInputErrors,
   TaskController.updateTask
 );
+
 //Eliminar
 router.delete(
   "/:projectId/tasks/:taskId",
@@ -135,6 +140,7 @@ router.delete(
   TaskController.deleteTask
 );
 
+//Ruta para actualizar el estado de una tarea
 router.post(
   "/:projectId/tasks/:taskId/status",
   param("taskId").isMongoId().withMessage("ID no valido"),
@@ -144,6 +150,8 @@ router.post(
 );
 
 /**Routes for teams */
+
+//Encontrar miembro de equipo por su email
 router.post(
   "/:projectId/team/find",
   body("email").isEmail().toLowerCase().withMessage("Email no valido"),
@@ -151,21 +159,23 @@ router.post(
   TeamMemberController.findMemberByEmail
 );
 
-router.get("/:projectId/team",
- TeamMemberController.getProjectTeam
-)
+//Obtener todos los miembros de un proyecto
+router.get("/:projectId/team", TeamMemberController.getProjectTeam);
 
-router.post("/:projectId/team",
-  body('id')
-  .isMongoId().withMessage('ID No valido'),
+// Ruta para agregar un nuevo miembro al equipo de un proyecto
+router.post(
+  "/:projectId/team",
+  body("id").isMongoId().withMessage("ID No valido"),
   handleInputErrors,
   TeamMemberController.addMemberById
-)
-router.delete("/:projectId/team/:userId",
-  param('userId')
-  .isMongoId().withMessage('ID No valido'),
+);
+
+// Ruta para eliminar un miembro del equipo de un proyecto
+router.delete(
+  "/:projectId/team/:userId",
+  param("userId").isMongoId().withMessage("ID No valido"),
   handleInputErrors,
   TeamMemberController.removeMemberById
-)
+);
 // Exporta la instancia de router para que pueda ser utilizada en otros archivos
 export default router;

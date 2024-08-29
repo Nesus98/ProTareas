@@ -4,11 +4,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AddMemberForm from "./AddMemberForm";
 
 export default function AddMemberModal() {
+  // Hook para obtener la ubicación actual en la aplicación React
   const location = useLocation();
+
+  // Hook para navegar a diferentes rutas en la aplicación React
   const navigate = useNavigate();
 
+  // Extrae los parámetros de la consulta de la URL actual
   const queryParams = new URLSearchParams(location.search);
+
+  // Obtiene el valor del parámetro de consulta "addMember" de la URL
   const addMember = queryParams.get("addMember");
+
+  // Determina si se debe mostrar algo en función de la presencia del parámetro "addMember" en la URL
   const show = addMember ? true : false;
 
   return (
@@ -54,7 +62,6 @@ export default function AddMemberModal() {
                   </p>
 
                   <AddMemberForm />
-                  
                 </Dialog.Panel>
               </Transition.Child>
             </div>

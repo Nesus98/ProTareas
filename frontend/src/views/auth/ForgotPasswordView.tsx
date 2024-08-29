@@ -10,6 +10,7 @@ export default function ForgotPasswordView() {
   const initialValues: ForgotPasswordForm = {
     email: "",
   };
+  // Hook de React Hook Form para manejar el formulario.
   const {
     register,
     handleSubmit,
@@ -17,6 +18,7 @@ export default function ForgotPasswordView() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
+  // Definición de una mutación usando el hook useMutation de react-query para manejar la lógica de "Olvidé mi contraseña".
   const { mutate } = useMutation({
     mutationFn: forgotPassword,
     onError: (error) => {
@@ -28,6 +30,7 @@ export default function ForgotPasswordView() {
     },
   });
 
+  // Función que maneja el envío del formulario
   const handleForgotPassword = (formData: ForgotPasswordForm) =>
     mutate(formData);
 

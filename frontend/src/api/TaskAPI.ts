@@ -10,7 +10,7 @@ type TaskAPI = {
   formData: TaskFormData;
   projectId: Project["_id"];
   taskId: Task["_id"];
-  status: Task['status']
+  status: Task["status"];
 };
 
 // Función asíncrona para crear una nueva tarea
@@ -33,6 +33,7 @@ export async function createTask({
   }
 }
 
+//Obtiene tareas por su id
 export async function getTaskById({
   projectId,
   taskId,
@@ -41,7 +42,7 @@ export async function getTaskById({
     const url = `/projects/${projectId}/tasks/${taskId}`;
     const { data } = await api(url);
     const response = taskSchema.safeParse(data);
-    console.log(response)
+    console.log(response);
     if (response.success) {
       return response.data;
     }
@@ -53,6 +54,7 @@ export async function getTaskById({
   }
 }
 
+//Actualiza una tarea
 export async function updateTask({
   projectId,
   taskId,
@@ -70,6 +72,7 @@ export async function updateTask({
   }
 }
 
+//Eliminar una tarea
 export async function deleteTask({
   projectId,
   taskId,
@@ -85,14 +88,16 @@ export async function deleteTask({
     }
   }
 }
+
+//Actualiza el estado de una tarea
 export async function updateStatus({
   projectId,
   taskId,
-  status
-}: Pick<TaskAPI, "projectId" | "taskId" | 'status'>) {
+  status,
+}: Pick<TaskAPI, "projectId" | "taskId" | "status">) {
   try {
     const url = `/projects/${projectId}/tasks/${taskId}/status`;
-    const { data } = await api.post<string>(url, {status});
+    const { data } = await api.post<string>(url, { status });
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {

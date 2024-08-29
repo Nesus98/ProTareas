@@ -4,8 +4,11 @@ import NewPasswordForm from "./NewPasswordForm";
 import { ConfirmToken } from "@/types/index";
 
 export default function NewPasswordView() {
+  // Estado para almacenar el valor del token ingresado por el usuario.
+  // Se inicializa como una cadena vacía.
   const [token, setToken] = useState<ConfirmToken["token"]>("");
 
+  // Estado para almacenar si el token ingresado es válido 
   const [isValidToken, setIsValidToken] = useState(false);
   return (
     <>
@@ -15,7 +18,15 @@ export default function NewPasswordView() {
         <span className=" text-fuchsia-500 font-bold">por email</span>
       </p>
 
-      {!isValidToken ? <NewPasswordToken token={token} setToken={setToken} setIsValidToken={setIsValidToken} /> : <NewPasswordForm token={token} />}
+      {!isValidToken ? (
+        <NewPasswordToken
+          token={token}
+          setToken={setToken}
+          setIsValidToken={setIsValidToken}
+        />
+      ) : (
+        <NewPasswordForm token={token} />
+      )}
     </>
   );
 }

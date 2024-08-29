@@ -1,10 +1,6 @@
-// Importar el tipo de datos Task desde los tipos definidos en el proyecto
 import { TaskProject } from "@/types/index";
-// Importar componentes Menu y Transition de @headlessui/react para manejar el menú desplegable y las transiciones
 import { Menu, Transition } from "@headlessui/react";
-// Importar el ícono de tres puntos verticales de heroicons
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-// Importar Fragment de React para agrupar elementos sin agregar nodos extra al DOM
 import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,16 +16,25 @@ type TaskCardProps = {
 
 // Componente funcional TaskCard que recibe una tarea como propiedad
 export default function TaskCard({ task, canEdit }: TaskCardProps) {
+
+  //hook para el drag and drop
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task._id,
   });
+
+  //Hook para reedireccionar
   const navigate = useNavigate();
+
+  // Hook para acceder a los parámetros de la URL
   const params = useParams();
 
+  // ID del proyecto extraído de los parámetros de la URL
   const projectId = params.projectId!;
 
+   // Hook para interactuar con el caché y las consultas de React Query
   const queryClient = useQueryClient();
 
+  //Hook para la eliminacion de la tarea
   const { mutate } = useMutation({
     mutationFn: deleteTask,
     onError: (error) => {
@@ -41,6 +46,7 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
     },
   });
 
+  // Estilo aplicado a la tarea cuando está siendo arrastrada
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,

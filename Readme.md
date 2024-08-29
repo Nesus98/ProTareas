@@ -10,15 +10,15 @@ Users can create projects with a name, description, and the name of the client f
 ### Task Creation and Management
  Within each project, users can create tasks with a name and description. Tasks can be managed with five possible statuses:
 
-Pending: Initially assigned to new tasks.
+- Pending: Initially assigned to new tasks.
 
-On Hold: Tasks awaiting some action or condition.
+- On Hold: Tasks awaiting some action or condition.
 
-In Progress: Tasks currently being worked on.
+- In Progress: Tasks currently being worked on.
 
-Under Review: Tasks that are being reviewed.
+- Under Review: Tasks that are being reviewed.
 
-Completed: Tasks that have been finished.
+- Completed: Tasks that have been finished.
 
 Users can change the status of tasks at any time, with an automatic record of the date and the profile name of the user who made the change. Tasks can also be manually deleted.
 
@@ -50,11 +50,11 @@ Protareas is built using the following technologies and tools:
 ```bash
 # Clone the repository
 git clone https://github.com/Nesus98/ProTareas.git
- #Navigate to the respective directory (frontend and backend)
+# Navigate to the respective directory (frontend and backend)
 cd frontend/ || cd backend//
- #Install dependecies in each directory with the same command
+# Install dependecies in each directory with the same command
 npm install
- #Start the development server on each terminal
+# Start the development server on each terminal
  npm run dev
 ```
 
@@ -65,9 +65,9 @@ After setting up both the frontend and backend, navigate to the frontend applica
 
 
 
-```
+
   For Users
-```
+
 
 | URL                                      | Type     | Description     |
 | :--------                                      | :------- | :-------------- |
@@ -80,9 +80,9 @@ After setting up both the frontend and backend, navigate to the frontend applica
 | http://localhost:4000/api/auth/profile         | PUT      | update profile  |
 | http://localhost:4000/api/auth/update-password | POST     | update password |
 
-```
+
   For Team Members
-```
+
 
 | URL                                                  | Type     | Description     |
 | :--------                                                  | :------- | :-------------- |
@@ -92,9 +92,9 @@ After setting up both the frontend and backend, navigate to the frontend applica
 |http://localhost:4000/api/projects/${projectId}/team        | GET      | get project members |
 
 
-```
+
   For Projects
-```
+
 
 | URL                                       | Type     | Description     |
 | :--------                                       | :------- | :-------------- |
@@ -105,9 +105,9 @@ After setting up both the frontend and backend, navigate to the frontend applica
 | http://localhost:4000/api/projects/${projectId} | DEL      | delete project   |
 
 
-```
+
   For Tasks
-```
+
 
 | URL                                                       | Type| Description         |
 | :--------                                                       | :---| :------------       |

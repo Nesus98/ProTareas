@@ -1,15 +1,18 @@
 import { useDroppable } from "@dnd-kit/core";
 
+// Define las propiedades esperadas por el componente DropTask
 type DropTaskProps = {
     status: string
 }
 
 export default function DropTask({status}: DropTaskProps) {
 
+    // Configura la funcionalidad de droppable utilizando el hook useDroppable de @dnd-kit/core
     const { isOver, setNodeRef } = useDroppable({
         id:status
     })
 
+     // Define el estilo condicional basado en si el área está sobre la que se está arrastrando un elemento
     const style = {
         opacity: isOver ? 0.3 : undefined
     }

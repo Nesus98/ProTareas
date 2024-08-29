@@ -17,7 +17,7 @@ export default function LoginView() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { mutate } = useMutation({
     mutationFn: authenticateUser,
@@ -25,10 +25,11 @@ export default function LoginView() {
       toast.error(error.message);
     },
     onSuccess: () => {
-      navigate('/')
+      navigate("/");
     },
   });
 
+  // Maneja el proceso de inicio de sesión.
   const handleLogin = (formData: UserLoginForm) => mutate(formData);
 
   return (
@@ -36,10 +37,7 @@ export default function LoginView() {
       <h1 className="text-5xl font-black text-white">Iniciar Sesion</h1>
       <p className="text-2xl font-light text-white mt-5">
         Comienza a planear tu proyectos y tareas {""}
-        <span className=" text-fuchsia-500 font-bold">
-          {" "}
-          iniciando sesion
-        </span>
+        <span className=" text-fuchsia-500 font-bold"> iniciando sesion</span>
       </p>
       <form
         onSubmit={handleSubmit(handleLogin)}

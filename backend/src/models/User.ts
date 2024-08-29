@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+// Define la interfaz IUser para el documento del usuario en MongoDB
 export interface IUser extends Document {
   email: string;
   password: string;
@@ -7,6 +8,7 @@ export interface IUser extends Document {
   confirmed: boolean;
 }
 
+// Define el esquema del usuario
 const userSchema: Schema = new Schema({
   email: {
     type: String,
@@ -28,6 +30,7 @@ const userSchema: Schema = new Schema({
   },
 });
 
+// Crea el modelo del usuario usando el esquema definido
 const User = mongoose.model<IUser>('User', userSchema)
 
 export default User
